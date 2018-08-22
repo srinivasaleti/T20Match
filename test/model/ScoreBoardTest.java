@@ -32,4 +32,24 @@ public class ScoreBoardTest {
 
         assertEquals(this.scoreBoard.getCurrentScore(), 6);
     }
+
+    @Test
+    void shouldReturnZeroAsInitialNoOfOuts() {
+        assertEquals(0, this.scoreBoard.getNoOfOuts());
+    }
+
+    @Test
+    void shouldSetNoOfOutsAsFive() {
+        this.scoreBoard.setNoOfOuts(5);
+
+        assertEquals(this.scoreBoard.getNoOfOuts(), 5);
+    }
+
+    @Test
+    void shouldSetNoOfOutsAsSix() {
+        this.scoreBoard.setNoOfOuts(6);
+
+        assertEquals(this.scoreBoard.getNoOfOuts(), 6);
+    }
+
 }

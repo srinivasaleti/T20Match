@@ -41,4 +41,13 @@ public class MatchServiceTest {
         verify(scoreBoardService).addScore(twoRuns.getValue());
     }
 
+    @Test
+    public void shouldAddIncrementOutsIfPlayerIsOut() {
+        Score zeroRuns = Score.OUT;
+        when(playerService.score()).thenReturn(zeroRuns);
+
+        matchService.start();
+
+        verify(scoreBoardService).incrementNoOfOuts();
+    }
 }

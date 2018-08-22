@@ -4,6 +4,7 @@ import model.ScoreBoard;
 
 public class ScoreBoardService {
 
+    private static final int OFFSET = 1;
     private ScoreBoard scoreBoard;
 
     public ScoreBoardService(ScoreBoard scoreBoard) {
@@ -17,5 +18,13 @@ public class ScoreBoardService {
 
     public int getCurrentScore() {
         return this.scoreBoard.getCurrentScore();
+    }
+
+    public void incrementNoOfOuts() {
+        this.scoreBoard.setNoOfOuts(this.scoreBoard.getNoOfOuts() + OFFSET);
+    }
+
+    public int getNumberOfOuts() {
+        return this.scoreBoard.getNoOfOuts();
     }
 }

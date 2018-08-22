@@ -2,6 +2,7 @@ package model;
 
 public class ScoreBoard {
     private int currentScore;
+    private int noOfOuts;
 
     public ScoreBoard() {
         this.currentScore = 0;
@@ -13,5 +14,13 @@ public class ScoreBoard {
 
     public void setCurrentScore(int currentScore) {
         this.currentScore = currentScore;
+    }
+
+    public int getNoOfOuts() {
+        return this.noOfOuts;
+    }
+
+    public void setNoOfOuts(int noOfOuts) {
+        this.noOfOuts = noOfOuts;
     }
 }
