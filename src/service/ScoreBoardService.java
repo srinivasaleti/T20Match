@@ -1,3 +1,7 @@
+package service;
+
+import model.ScoreBoard;
+
 public class ScoreBoardService {
 
     private ScoreBoard scoreBoard;

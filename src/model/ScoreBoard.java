@@ -1,3 +1,5 @@
+package model;
+
 public class ScoreBoard {
     private int currentScore;
 

@@ -1,3 +1,5 @@
+package service;
+
 public class MatchService {
 
     private final ScoreBoardService scoreBoardService;
