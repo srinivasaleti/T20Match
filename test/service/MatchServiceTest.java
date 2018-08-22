@@ -1,34 +1,44 @@
 package service;
 
+import model.Score;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class MatchServiceTest {
 
     private MatchService matchService;
     private ScoreBoardService scoreBoardService;
+    private PlayerService playerService;
 
     @BeforeEach
     void setUp() {
         scoreBoardService = mock(ScoreBoardService.class);
-        matchService = new MatchService(scoreBoardService);
+        playerService = mock(PlayerService.class);
+        matchService = new MatchService(scoreBoardService, playerService);
     }
 
     @Test
     public void shouldNotIncrementScoreIfPlayerDoesNotScoreAnyRuns() {
-        matchService.addScore(0);
+        Score zeroRuns = Score.ZERO;
+        when(playerService.score()).thenReturn(zeroRuns);
 
-        verify(scoreBoardService).addScore(0);
+        matchService.start();
+
+        verify(scoreBoardService).addScore(zeroRuns.getValue());
     }
 
     @Test
     public void shouldIncrementCurrentScoreIfPlayerScoredMoreThanOneRun() {
-        matchService.addScore(2);
+        Score twoRuns = Score.TWO;
+        when(playerService.score()).thenReturn(twoRuns);
 
-        verify(scoreBoardService).addScore(2);
+        matchService.start();
+
+        verify(scoreBoardService).addScore(twoRuns.getValue());
     }
 
 }
