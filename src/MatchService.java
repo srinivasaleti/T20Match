@@ -1,16 +1,13 @@
 public class MatchService {
 
-    private int currentScore;
+    private final ScoreBoardService scoreBoardService;
 
-    public MatchService() {
-        currentScore = 0;
+    public MatchService(ScoreBoardService scoreBoardService) {
+        this.scoreBoardService = scoreBoardService;
     }
 
     public void addScore(int runs) {
-        this.currentScore += runs;
+        this.scoreBoardService.addScore(runs);
     }
 
-    public int currentScore() {
-        return this.currentScore;
-    }
 }

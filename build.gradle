@@ -9,9 +9,22 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.3'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.0.3'
+    testCompile "org.mockito:mockito-core:2.+"
 }
+
+// These lines can be removed when you use the default directories src/main/kotlin and src/test/kotlin
+sourceSets {
+    main.java.srcDirs += 'src'
+    main.resources.srcDirs += 'src'
+    test.java.srcDirs += 'test'
+    test.resources.srcDirs += 'test'
+}
+
+// Java target version
+sourceCompatibility = 1.8
