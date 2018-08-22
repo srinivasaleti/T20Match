@@ -15,12 +15,19 @@ public class MatchService {
     }
 
     public void start() {
-        Score score = this.playerService.score();
+        do {
+            Score score = this.playerService.score();
+
+            executionActionBasedOnScore(score);
+        } while (!this.scoreBoardService.isMatchFinish());
+    }
+
+    private void executionActionBasedOnScore(Score score) {
         if (score == OUT) {
             scoreBoardService.incrementNoOfOuts();
-        } else {
-            int runs = score.getValue();
-            this.scoreBoardService.addScore(runs);
+            return;
         }
+        int runs = score.getValue();
+        this.scoreBoardService.addScore(runs);
     }
 }

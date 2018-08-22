@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 
 public class MatchServiceTest {
 
@@ -24,6 +25,7 @@ public class MatchServiceTest {
     @Test
     public void shouldNotIncrementScoreIfPlayerDoesNotScoreAnyRuns() {
         Score zeroRuns = Score.ZERO;
+        when(scoreBoardService.isMatchFinish()).thenReturn(true);
         when(playerService.score()).thenReturn(zeroRuns);
 
         matchService.start();
@@ -34,6 +36,7 @@ public class MatchServiceTest {
     @Test
     public void shouldIncrementCurrentScoreIfPlayerScoredMoreThanOneRun() {
         Score twoRuns = Score.TWO;
+        when(scoreBoardService.isMatchFinish()).thenReturn(true);
         when(playerService.score()).thenReturn(twoRuns);
 
         matchService.start();
@@ -44,10 +47,30 @@ public class MatchServiceTest {
     @Test
     public void shouldAddIncrementOutsIfPlayerIsOut() {
         Score zeroRuns = Score.OUT;
+        when(scoreBoardService.isMatchFinish()).thenReturn(true);
         when(playerService.score()).thenReturn(zeroRuns);
 
         matchService.start();
 
         verify(scoreBoardService).incrementNoOfOuts();
+    }
+
+    @Test
+    public void shouldPlayTheGameUntilFinish() {
+        Score zeroRuns = Score.OUT;
+
+        when(scoreBoardService.isMatchFinish())
+                .thenReturn(false)
+                .thenReturn(false)
+                .thenReturn(false)
+                .thenReturn(true);
+        when(playerService.score())
+                .thenReturn(zeroRuns)
+                .thenReturn(Score.FIVE)
+                .thenReturn(Score.FIVE);
+
+        matchService.start();
+
+        verify(scoreBoardService, times(4)).isMatchFinish();
     }
 }

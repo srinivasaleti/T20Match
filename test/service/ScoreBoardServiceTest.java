@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ScoreBoardServiceTest {
 
@@ -12,7 +14,7 @@ public class ScoreBoardServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.scoreBoardService = new ScoreBoardService(new ScoreBoard());
+        this.scoreBoardService = new ScoreBoardService(new ScoreBoard(), 10, 4);
     }
 
     @Test
@@ -45,6 +47,42 @@ public class ScoreBoardServiceTest {
         this.scoreBoardService.incrementNoOfOuts();
 
         assertEquals(3, this.scoreBoardService.getNumberOfOuts());
+    }
+
+    @Test
+    public void shouldReturnFalseIfScoreNotLevel() {
+        this.scoreBoardService.addScore(2);
+        this.scoreBoardService.addScore(6);
+
+        assertFalse(this.scoreBoardService.isMatchFinish());
+    }
+
+    @Test
+    public void shouldReturnTrueIfScoreLevel() {
+        this.scoreBoardService.addScore(2);
+        this.scoreBoardService.addScore(6);
+        this.scoreBoardService.addScore(2);
+
+        assertTrue(this.scoreBoardService.isMatchFinish());
+    }
+
+    @Test
+    public void shouldReturnTrueIfTeamScoresMoreThanRequiredRuns() {
+        this.scoreBoardService.addScore(2);
+        this.scoreBoardService.addScore(6);
+        this.scoreBoardService.addScore(2);
+
+        assertTrue(this.scoreBoardService.isMatchFinish());
+    }
+
+    @Test
+    public void shouldReturnTrueIfAllOut() {
+        this.scoreBoardService.incrementNoOfOuts();
+        this.scoreBoardService.incrementNoOfOuts();
+        this.scoreBoardService.incrementNoOfOuts();
+        this.scoreBoardService.incrementNoOfOuts();
+
+        assertTrue(this.scoreBoardService.isMatchFinish());
     }
 
 }
