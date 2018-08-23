@@ -10,6 +10,7 @@ public class CommentaryService {
 
     private static String BALL_FORMAT = "%d.%d %s scores %d run\n";
     private static String OUT_FORMAT = "%d.%d %s is out\n";
+    private static String END_OF_OVER_FORMAT = "%d overs left. %d runs to win\n";
 
     private PrintStream outputStream;
 
@@ -28,6 +29,12 @@ public class CommentaryService {
             outputStream.printf(OUT_FORMAT, noOfOversDone, numberOfBallsFacedInCurrentOver, playerName);
         } else {
             outputStream.printf(BALL_FORMAT, noOfOversDone, numberOfBallsFacedInCurrentOver, playerName, currentBallScore);
+        }
+        if (noOfBallsFaced % 6 == 0) {
+            outputStream.println();
+            int remainingOvers = scoreBoard.getTotalOvers() - (noOfBallsFaced / 6);
+            int remainingRuns = scoreBoard.getRequiredScore() - scoreBoard.getCurrentScore();
+            outputStream.printf(END_OF_OVER_FORMAT, remainingOvers, remainingRuns);
         }
     }
 
