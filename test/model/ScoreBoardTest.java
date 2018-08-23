@@ -108,4 +108,36 @@ public class ScoreBoardTest {
         assertEquals(this.scoreBoard.getRequiredScore(), 5);
     }
 
+    @Test
+    public void shouldSetCurrentPlayerAsSrinu() {
+        Player striker = new Player("Srinu");
+
+        scoreBoard.setCurrentPlayer(striker);
+
+        assertEquals(scoreBoard.getCurrentPlayer(), striker);
+    }
+
+    @Test
+    public void shouldSetCurrentPlayerAsKohli() {
+        Player striker = new Player("Kohli");
+
+        scoreBoard.setCurrentPlayer(striker);
+
+        assertEquals(scoreBoard.getCurrentPlayer(), striker);
+    }
+
+    @Test
+    public void setCurrentBallStatusAsOut() {
+        scoreBoard.setCurrentBallStatus(Score.OUT);
+
+        assertEquals(scoreBoard.getCurrentBallStatus(), Score.OUT);
+    }
+
+    @Test
+    public void setCurrentBallStatusAsTWORuns() {
+        scoreBoard.setCurrentBallStatus(Score.TWO);
+
+        assertEquals(scoreBoard.getCurrentBallStatus(), Score.TWO);
+    }
+
 }

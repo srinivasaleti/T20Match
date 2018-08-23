@@ -7,6 +7,8 @@ public class ScoreBoard {
     private int totalOvers;
     private int requiredScore;
     private int totalWickets;
+    private Player currentPlayer;
+    private Score currentBallStatus;
 
     public ScoreBoard() {
         this.currentScore = 0;
@@ -61,6 +63,22 @@ public class ScoreBoard {
 
     public void setTotalWickets(int totalWickets) {
         this.totalWickets = totalWickets;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public Score getCurrentBallStatus() {
+        return currentBallStatus;
+    }
+
+    public void setCurrentBallStatus(Score currentBallStatus) {
+        this.currentBallStatus = currentBallStatus;
     }
 
 }
