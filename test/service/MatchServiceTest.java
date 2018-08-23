@@ -14,6 +14,7 @@ public class MatchServiceTest {
     private ScoreBoardService scoreBoardService;
     private PlayerService playerService;
     private TeamService teamService;
+    private CommentaryService commentaryService;
     private Player striker;
 
     @BeforeEach
@@ -22,7 +23,8 @@ public class MatchServiceTest {
         playerService = mock(PlayerService.class);
         striker = mock(Player.class);
         teamService = mock(TeamService.class);
-        matchService = new MatchService(scoreBoardService, playerService, teamService);
+        commentaryService = mock(CommentaryService.class);
+        matchService = new MatchService(scoreBoardService, playerService, teamService, commentaryService);
 
         when(playerService.striker()).thenReturn(striker);
     }
@@ -92,6 +94,42 @@ public class MatchServiceTest {
         matchService.start();
 
         verify(teamService).takeActionBasedOn(scoreBoard);
+    }
+
+    @Test
+    public void shouldPlayAnnounceTheCommentary() {
+        ScoreBoard scoreBoard = mock(ScoreBoard.class);
+        when(scoreBoardService.scoreBoard()).thenReturn(scoreBoard);
+        when(scoreBoardService.isMatchFinish())
+                .thenReturn(true);
+        when(playerService.score())
+                .thenReturn(Score.FIVE);
+
+        matchService.start();
+
+        verify(commentaryService).announce(scoreBoard);
+        verify(scoreBoardService).isMatchFinish();
+    }
+
+    @Test
+    public void shouldPlayAnnounceTheCommentaryForEachBall() {
+        Score zeroRuns = Score.OUT;
+        ScoreBoard scoreBoard = mock(ScoreBoard.class);
+        when(scoreBoardService.scoreBoard()).thenReturn(scoreBoard);
+        when(scoreBoardService.isMatchFinish())
+                .thenReturn(false)
+                .thenReturn(false)
+                .thenReturn(false)
+                .thenReturn(true);
+        when(playerService.score())
+                .thenReturn(zeroRuns)
+                .thenReturn(Score.FIVE)
+                .thenReturn(Score.FIVE);
+
+        matchService.start();
+
+        verify(commentaryService, times(4)).announce(scoreBoard);
+        verify(scoreBoardService, times(4)).isMatchFinish();
     }
 
 }
