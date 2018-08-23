@@ -39,4 +39,17 @@ public class PlayerTest {
         assertTrue(this.player.out());
     }
 
+    @Test
+    public void shouldReturnNameAsSrinu() {
+        Player player = new Player("Srinu");
+
+        assertEquals(player.getName(), "Srinu");
+    }
+
+    @Test
+    public void shouldReturnNameAsKohli() {
+        Player player = new Player("Kohli");
+
+        assertEquals(player.getName(), "Kohli");
+    }
 }
