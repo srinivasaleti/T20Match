@@ -18,6 +18,7 @@ public class MatchService {
             Score score = this.playerService.score();
             Player striker = playerService.striker();
             this.scoreBoardService.updateScore(striker, score);
+            playerService.takeAction(score);
         } while (!this.scoreBoardService.isMatchFinish());
     }
 

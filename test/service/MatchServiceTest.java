@@ -54,4 +54,16 @@ public class MatchServiceTest {
         verify(scoreBoardService, times(4)).updateScore(any(), any());
         verify(scoreBoardService, times(4)).isMatchFinish();
     }
+
+    @Test
+    public void shouldAskPlayerServiceToTakeProperActionBasedOnScore() {
+        Score score = Score.ZERO;
+        when(scoreBoardService.isMatchFinish()).thenReturn(true);
+        when(playerService.score()).thenReturn(score);
+
+        matchService.start();
+
+        verify(playerService).takeAction(score);
+    }
+
 }

@@ -99,4 +99,47 @@ public class PlayerServiceTest {
         assertEquals(playerService.striker(), striker);
     }
 
+    public void shouldSetNonStrikerAsSrinu() {
+        Player nonStriker = new Player("Srinu");
+
+        playerService.setNonStriker(nonStriker);
+
+        assertEquals(playerService.nonStriker(), nonStriker);
+    }
+
+    @Test
+    public void shouldSetNonStrikerAsKohli() {
+        Player nonStriker = new Player("Kohli");
+
+        playerService.setNonStriker(nonStriker);
+
+        assertEquals(playerService.nonStriker(), nonStriker);
+    }
+
+    @Test
+    public void shouldRotateTheStrikeWhenStrikerScoresOddRuns() {
+        Player striker = new Player("Srinu");
+        Player nonStriker = new Player("Kohli");
+        playerService.setStriker(striker);
+        playerService.setNonStriker(nonStriker);
+
+        playerService.takeAction(Score.ONE);
+
+        assertEquals(playerService.striker(), nonStriker);
+        assertEquals(playerService.nonStriker(), striker);
+    }
+
+    @Test
+    public void shouldNotRotateTheStrikeWhenStrikerScoresEvenRuns() {
+        Player striker = new Player("Srinu");
+        Player nonStriker = new Player("Kohli");
+        playerService.setStriker(striker);
+        playerService.setNonStriker(nonStriker);
+
+        playerService.takeAction(Score.TWO);
+
+        assertEquals(playerService.striker(), striker);
+        assertEquals(playerService.nonStriker(), nonStriker);
+    }
+
 }

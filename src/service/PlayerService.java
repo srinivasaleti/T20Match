@@ -15,6 +15,7 @@ public class PlayerService {
 
     private final Random random;
     private Player striker;
+    private Player nonStriker;
 
     public PlayerService(Random random) {
         this.random = random;
@@ -29,8 +30,28 @@ public class PlayerService {
         this.striker = striker;
     }
 
+    public void setNonStriker(Player nonStriker) {
+        this.nonStriker = nonStriker;
+    }
+
     public Player striker() {
         return striker;
+    }
+
+    public Player nonStriker() {
+        return nonStriker;
+    }
+
+    public void takeAction(Score score) {
+        if(score.getValue() % 2 == 1) {
+            switchStriking();
+        }
+    }
+
+    private void switchStriking() {
+        Player dummyStriker = striker;
+        striker = nonStriker;
+        nonStriker = dummyStriker;
     }
 
 }
