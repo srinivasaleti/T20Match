@@ -41,7 +41,7 @@ public class ScoreBoardService {
     }
 
     public boolean isMatchFinish() {
-        return (this.getCurrentScore() >= this.requiredScore) || this.getNumberOfOuts() == teamSize;
+        return (this.getCurrentScore() >= this.requiredScore) || this.getNumberOfOuts() == teamSize - 1;
     }
 
 }

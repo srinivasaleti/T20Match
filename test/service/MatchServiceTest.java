@@ -12,6 +12,7 @@ public class MatchServiceTest {
     private MatchService matchService;
     private ScoreBoardService scoreBoardService;
     private PlayerService playerService;
+    private TeamService teamService;
     private Player striker;
 
     @BeforeEach
@@ -19,7 +20,8 @@ public class MatchServiceTest {
         scoreBoardService = mock(ScoreBoardService.class);
         playerService = mock(PlayerService.class);
         striker = mock(Player.class);
-        matchService = new MatchService(scoreBoardService, playerService);
+        teamService = mock(TeamService.class);
+        matchService = new MatchService(scoreBoardService, playerService, teamService);
 
         when(playerService.striker()).thenReturn(striker);
     }
@@ -64,6 +66,28 @@ public class MatchServiceTest {
         matchService.start();
 
         verify(playerService).takeAction(score);
+    }
+
+    @Test
+    public void shouldAskTeamServiceToGetStrikerAndNonStriker() {
+        Score score = Score.ONE;
+        when(scoreBoardService.isMatchFinish()).thenReturn(true);
+        when(playerService.score()).thenReturn(score);
+
+        matchService.start();
+
+        verify(teamService, times(1)).assignStrikerAndNonStriker();
+    }
+
+    @Test
+    public void shouldAskTeamServiceToTakeProperActionBasedOnScore() {
+        Score score = Score.ONE;
+        when(scoreBoardService.isMatchFinish()).thenReturn(true);
+        when(playerService.score()).thenReturn(score);
+
+        matchService.start();
+
+        verify(teamService).takeAction(score);
     }
 
 }

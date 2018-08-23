@@ -92,7 +92,6 @@ public class ScoreBoardServiceTest {
         this.scoreBoardService.updateScore(player, Score.OUT);
         this.scoreBoardService.updateScore(player, Score.OUT);
         this.scoreBoardService.updateScore(player, Score.OUT);
-        this.scoreBoardService.updateScore(player, Score.OUT);
 
         assertTrue(this.scoreBoardService.isMatchFinish());
     }
