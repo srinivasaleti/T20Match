@@ -63,4 +63,9 @@ class TeamTest {
         assertFalse(team.hasAtLeastTwoBatsMen());
     }
 
+    @Test
+    public void shouldReturnListOfPlayers() {
+        assertEquals(players, team.players());
+    }
+
 }

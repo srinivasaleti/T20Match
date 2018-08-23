@@ -28,4 +28,8 @@ public class Team implements Iterator<Player> {
         return this.players.size() >= 2;
     }
 
+    public List<Player> players() {
+        return players;
+    }
+
 }
