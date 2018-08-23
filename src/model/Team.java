@@ -14,7 +14,7 @@ public class Team implements Iterator<Player> {
 
     @Override
     public boolean hasNext() {
-        return currentPlayerIndex == players.size() - 1;
+        return currentPlayerIndex < players.size();
     }
 
     @Override

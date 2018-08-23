@@ -31,12 +31,11 @@ class TeamTest {
     }
 
     @Test
-    public void shouldReturnFalseWhenAllPlayersInTheTeamNotYetPlayed() {
-        team.next();
+    public void shouldReturnTrueWhenAllPlayersInTheTeamNotYetPlayed() {
         team.next();
         team.next();
 
-        assertFalse(team.hasNext());
+        assertTrue(team.hasNext());
     }
 
     @Test
