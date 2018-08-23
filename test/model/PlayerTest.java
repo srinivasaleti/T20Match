@@ -52,4 +52,22 @@ public class PlayerTest {
 
         assertEquals(player.getName(), "Kohli");
     }
+
+    @Test
+    public void shouldReturnOneAsBallsFaced() {
+        Player player = new Player("Srinu");
+
+        player.setBallsFaced(1);
+        assertEquals(player.ballsFaced(), 1);
+    }
+
+    @Test
+    public void shouldReturnTwoAsBallsFaced() {
+        Player player = new Player("Kohli");
+
+        player.setBallsFaced(2);
+
+        assertEquals(player.ballsFaced(), 2);
+    }
+
 }

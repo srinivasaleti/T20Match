@@ -4,6 +4,7 @@ public class Player {
     private final String name;
     private int score;
     private boolean out;
+    private int ballsFaced;
 
     public Player(String name) {
         this.name = name;
@@ -30,4 +31,13 @@ public class Player {
     public String getName() {
         return name;
     }
+
+    public int ballsFaced() {
+        return this.ballsFaced;
+    }
+
+    public void setBallsFaced(int ballsFaced) {
+        this.ballsFaced = ballsFaced;
+    }
+
 }

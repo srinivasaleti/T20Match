@@ -15,6 +15,7 @@ public class ScoreBoardService {
 
     public void updateScore(Player player, Score score) {
         int noOfBallsFaced = this.scoreBoard.getNoOfBallsFaced();
+        player.setBallsFaced(player.ballsFaced() + OFFSET);
         this.scoreBoard.setCurrentBallStatus(score);
         this.scoreBoard.setCurrentPlayer(player);
         this.scoreBoard.setNoOfBallsFaced(noOfBallsFaced + OFFSET);

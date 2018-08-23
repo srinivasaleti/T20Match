@@ -177,4 +177,21 @@ public class ScoreBoardServiceTest {
     public void shouldReturnScoreBoard() {
         assertEquals(scoreBoard, this.scoreBoardService.scoreBoard());
     }
+
+    @Test
+    public void shouldUpdateBallsFacedByCurrentPlayerByOneRun() {
+        player.setBallsFaced(2);
+        this.scoreBoardService.updateScore(player, Score.OUT);
+
+        assertEquals(this.player.ballsFaced(), 3);
+    }
+
+    @Test
+    public void shouldUpdateBallsFacedByCurrentPlayerByTwoRuns() {
+        player.setBallsFaced(2);
+        this.scoreBoardService.updateScore(player, Score.OUT);
+        this.scoreBoardService.updateScore(player, Score.OUT);
+
+        assertEquals(this.player.ballsFaced(), 4);
+    }
 }
