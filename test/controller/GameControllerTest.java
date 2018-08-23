@@ -76,4 +76,10 @@ class GameControllerTest {
         verify(this.commentaryService).announceResults(scoreBoard);
     }
 
+    @Test
+    void shouldAnnounceEachPlayerScoreInTheTeam() {
+        this.gameController.start();
+
+        verify(this.commentaryService).announceEachPlayerScoreInTeam(team);
+    }
 }

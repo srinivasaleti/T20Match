@@ -1,6 +1,8 @@
 package service;
 
+import model.Player;
 import model.ScoreBoard;
+import model.Team;
 
 import java.io.PrintStream;
 
@@ -11,7 +13,8 @@ public class CommentaryService {
     private static String BALL_FORMAT = "%d.%d %s scores %d run\n";
     private static String OUT_FORMAT = "%d.%d %s is out\n";
     private static String END_OF_OVER_FORMAT = "%d overs left. %d runs to win\n";
-
+    private static String NON_OUT_BATSMEN_RUNS_FORMAT = "%s - %d* (%d balls)";
+    private static String OUT_BATSMEN_RUNS_FORMAT = "%s - %d (%d balls)";
     private PrintStream outputStream;
 
     public CommentaryService(PrintStream outputStream) {
@@ -56,5 +59,19 @@ public class CommentaryService {
             return;
         }
         outputStream.println("Loose By " + (requiredScore - currentScore) + " Runs");
+    }
+
+    public void announceEachPlayerScoreInTeam(Team team) {
+        outputStream.println();
+        team.players().forEach(this::announceScoreOfAPlayer);
+    }
+
+    private void announceScoreOfAPlayer(Player player) {
+        outputStream.println();
+        if (player.out()) {
+            outputStream.printf(OUT_BATSMEN_RUNS_FORMAT, player.getName(), player.getScore(), player.ballsFaced());
+            return;
+        }
+        outputStream.printf(NON_OUT_BATSMEN_RUNS_FORMAT, player.getName(), player.getScore(), player.ballsFaced());
     }
 }

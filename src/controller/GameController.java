@@ -35,5 +35,6 @@ public class GameController {
         this.matchService.start();
 
         this.commentaryService.announceResults(scoreBoard);
+        this.commentaryService.announceEachPlayerScoreInTeam(team);
     }
 }

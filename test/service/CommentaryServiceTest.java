@@ -3,10 +3,13 @@ package service;
 import model.Player;
 import model.Score;
 import model.ScoreBoard;
+import model.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -15,6 +18,8 @@ class CommentaryServiceTest {
     private static String BALL_FORMAT = "%d.%d %s scores %d run\n";
     private static String OUT_FORMAT = "%d.%d %s is out\n";
     private static String END_OF_OVER_FORMAT = "%d overs left. %d runs to win\n";
+    private static String NON_OUT_BATSMEN_RUNS_FORMAT = "%s - %d* (%d balls)";
+    private static String OUT_BATSMEN_RUNS_FORMAT = "%s - %d (%d balls)";
 
     private CommentaryService commentaryService;
     private ScoreBoard scoreBoard;
@@ -153,6 +158,31 @@ class CommentaryServiceTest {
         this.commentaryService.announceResults(scoreBoard);
 
         verify(printStream).println("Match Draw");
+    }
+
+    @Test
+    void shouldAnnounceEachPlayerScore() {
+        Player kiratBoli = new Player("Kirat Boli");
+        Player nsShodhi = new Player("N.S Shodhi");
+        Player rRumhrah = new Player("R Rumhrah");
+        List<Player> playerList = Arrays.asList(kiratBoli, nsShodhi, rRumhrah);
+        Team team = new Team(playerList);
+
+        kiratBoli.setBallsFaced(10);
+        kiratBoli.updateScore(10);
+        kiratBoli.goesToPavilions();
+
+        nsShodhi.setBallsFaced(5);
+        nsShodhi.updateScore(5);
+
+        this.commentaryService.announceEachPlayerScoreInTeam(team);
+
+        verify(printStream).printf(OUT_BATSMEN_RUNS_FORMAT, kiratBoli.getName(), kiratBoli.getScore(), kiratBoli.ballsFaced());
+        verify(printStream, never()).printf(NON_OUT_BATSMEN_RUNS_FORMAT, kiratBoli.getName(), kiratBoli.getScore(), kiratBoli.ballsFaced());
+        verify(printStream).printf(NON_OUT_BATSMEN_RUNS_FORMAT, nsShodhi.getName(), nsShodhi.getScore(), nsShodhi.ballsFaced());
+        verify(printStream, never()).printf(OUT_BATSMEN_RUNS_FORMAT, nsShodhi.getName(), nsShodhi.getScore(), nsShodhi.ballsFaced());
+        verify(printStream).printf(NON_OUT_BATSMEN_RUNS_FORMAT, rRumhrah.getName(), rRumhrah.getScore(), rRumhrah.ballsFaced());
+        verify(printStream, never()).printf(OUT_BATSMEN_RUNS_FORMAT, rRumhrah.getName(), rRumhrah.getScore(), rRumhrah.ballsFaced());
     }
 
 }
