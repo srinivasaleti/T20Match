@@ -11,11 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ScoreBoardServiceTest {
 
     private ScoreBoardService scoreBoardService;
+    private ScoreBoard scoreBoard;
     private Player player;
 
     @BeforeEach
     void setUp() {
-        this.scoreBoardService = new ScoreBoardService(new ScoreBoard(), 10, 4);
+        this.scoreBoard = new ScoreBoard();
+        this.scoreBoardService = new ScoreBoardService(scoreBoard, 10, 4);
         this.player = new Player("Srinu");
     }
 
@@ -92,6 +94,35 @@ public class ScoreBoardServiceTest {
         this.scoreBoardService.updateScore(player, Score.OUT);
         this.scoreBoardService.updateScore(player, Score.OUT);
         this.scoreBoardService.updateScore(player, Score.OUT);
+
+        assertTrue(this.scoreBoardService.isMatchFinish());
+    }
+
+    @Test
+    public void shouldIncreaseNoOfBallsFacedByOneRun() {
+        this.scoreBoardService.updateScore(player, Score.OUT);
+
+        assertEquals(this.scoreBoard.getNoOfBallsFaced(), 1);
+    }
+
+    @Test
+    public void shouldIncreaseNoOfBallsFacedByTwoRun() {
+        this.scoreBoardService.updateScore(player, Score.OUT);
+        this.scoreBoardService.updateScore(player, Score.ZERO);
+
+        assertEquals(this.scoreBoard.getNoOfBallsFaced(), 2);
+    }
+
+    @Test
+    public void shouldReturnTrueIfAllOversFinished() {
+        this.scoreBoard.setTotalOvers(1);
+
+        this.scoreBoardService.updateScore(player, Score.ZERO);
+        this.scoreBoardService.updateScore(player, Score.ZERO);
+        this.scoreBoardService.updateScore(player, Score.ZERO);
+        this.scoreBoardService.updateScore(player, Score.ZERO);
+        this.scoreBoardService.updateScore(player, Score.ZERO);
+        this.scoreBoardService.updateScore(player, Score.ZERO);
 
         assertTrue(this.scoreBoardService.isMatchFinish());
     }

@@ -52,4 +52,32 @@ public class ScoreBoardTest {
         assertEquals(this.scoreBoard.getNoOfOuts(), 6);
     }
 
+    @Test
+    void shouldSetNoOfBallsFacedToTen() {
+        this.scoreBoard.setNoOfBallsFaced(10);
+
+        assertEquals(this.scoreBoard.getNoOfBallsFaced(), 10);
+    }
+
+    @Test
+    void shouldSetNoOfBallsFacedToTwenty() {
+        this.scoreBoard.setNoOfBallsFaced(20);
+
+        assertEquals(this.scoreBoard.getNoOfBallsFaced(), 20);
+    }
+
+    @Test
+    void shouldSetTotalOversAsOne() {
+        this.scoreBoard.setTotalOvers(1);
+
+        assertEquals(this.scoreBoard.getTotalOvers(), 1);
+    }
+
+    @Test
+    void shouldSetTotalOversAsTwo() {
+        this.scoreBoard.setTotalOvers(2);
+
+        assertEquals(this.scoreBoard.getTotalOvers(), 2);
+    }
+
 }

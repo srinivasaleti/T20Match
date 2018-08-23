@@ -19,6 +19,8 @@ public class ScoreBoardService {
 
 
     public void updateScore(Player player, Score score) {
+        int noOfBallsFaced = this.scoreBoard.getNoOfBallsFaced();
+        this.scoreBoard.setNoOfBallsFaced(noOfBallsFaced + OFFSET);
         if (score == Score.OUT) {
             player.goesToPavilions();
             int noOfOuts = this.scoreBoard.getNoOfOuts();
@@ -41,7 +43,21 @@ public class ScoreBoardService {
     }
 
     public boolean isMatchFinish() {
-        return (this.getCurrentScore() >= this.requiredScore) || this.getNumberOfOuts() == teamSize - 1;
+        return isScoredAllRuns() || isAllOut() || isAllOversDone();
+    }
+
+    private boolean isScoredAllRuns() {
+        return this.getCurrentScore() >= this.requiredScore;
+    }
+
+    private boolean isAllOut() {
+        return this.getNumberOfOuts() == teamSize - 1;
+    }
+
+    private boolean isAllOversDone() {
+        int totalBallsFaced = this.scoreBoard.getNoOfBallsFaced();
+        int totalBallsNeedToFace = this.scoreBoard.getTotalOvers() * 6;
+        return totalBallsFaced == totalBallsNeedToFace;
     }
 
 }
