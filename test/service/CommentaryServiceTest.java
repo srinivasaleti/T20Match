@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.PrintStream;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class CommentaryServiceTest {
 
     private static String BALL_FORMAT = "%d.%d %s scores %d run\n";
+    private static String OUT_FORMAT = "%d.%d %s is out\n";
 
     private CommentaryService commentaryService;
     private ScoreBoard scoreBoard;
@@ -48,6 +48,28 @@ class CommentaryServiceTest {
         this.commentaryService.announce(scoreBoard);
 
         verify(printStream).printf(BALL_FORMAT, 0, 5, "Srinu", 2);
+    }
+
+    @Test
+    void shouldAnnounceOutInProperFormat() {
+        scoreBoard.setCurrentPlayer(player);
+        scoreBoard.setNoOfBallsFaced(5);
+        scoreBoard.setCurrentBallStatus(Score.OUT);
+
+        this.commentaryService.announce(scoreBoard);
+
+        verify(printStream).printf(OUT_FORMAT, 0, 5, "Srinu");
+    }
+
+    @Test
+    void shouldNotAnnounceRunIfCurrentScoreStatusIsOut() {
+        scoreBoard.setCurrentPlayer(player);
+        scoreBoard.setNoOfBallsFaced(5);
+        scoreBoard.setCurrentBallStatus(Score.OUT);
+
+        this.commentaryService.announce(scoreBoard);
+
+        verify(printStream, never()).printf(BALL_FORMAT, 0, 5, "Srinu", 2);
     }
 
 }
