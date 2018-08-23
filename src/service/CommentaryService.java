@@ -42,4 +42,19 @@ public class CommentaryService {
         return scoreBoard.getCurrentPlayer().getName();
     }
 
+    public void announceResults(ScoreBoard scoreBoard) {
+        int currentScore = scoreBoard.getCurrentScore();
+        int requiredScore = scoreBoard.getRequiredScore();
+        int noOfOuts = scoreBoard.getNoOfOuts();
+        int totalWickets = scoreBoard.getTotalWickets();
+        if (currentScore >= requiredScore) {
+            outputStream.println("Won By " + (totalWickets - noOfOuts + 1) + " Wickets");
+            return;
+        }
+        if (currentScore == requiredScore - 1) {
+            outputStream.println("Match Draw");
+            return;
+        }
+        outputStream.println("Loose By " + (requiredScore - currentScore) + " Runs");
+    }
 }

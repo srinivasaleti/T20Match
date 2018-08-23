@@ -4,6 +4,7 @@ import model.ScoreBoard;
 import model.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import service.CommentaryService;
 import service.MatchService;
 
 import java.util.List;
@@ -18,13 +19,15 @@ class GameControllerTest {
     private MatchService matchService;
     private Team team;
     private GameController gameController;
+    private CommentaryService commentaryService;
 
     @BeforeEach
     void setUp() {
         this.scoreBoard = mock(ScoreBoard.class);
         this.matchService = mock(MatchService.class);
+        this.commentaryService = mock(CommentaryService.class);
         this.team = mock(Team.class);
-        this.gameController = new GameController(totalOvers, requiredScore, team, scoreBoard, matchService);
+        this.gameController = new GameController(totalOvers, requiredScore, team, scoreBoard, matchService, commentaryService);
     }
 
     @Test
@@ -65,4 +68,12 @@ class GameControllerTest {
 
         this.matchService.start();
     }
+
+    @Test
+    void shouldAnnounceResults() {
+        this.gameController.start();
+
+        verify(this.commentaryService).announceResults(scoreBoard);
+    }
+
 }

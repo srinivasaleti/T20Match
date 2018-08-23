@@ -105,4 +105,54 @@ class CommentaryServiceTest {
         verify(printStream, never()).println();
         verify(printStream, never()).printf(END_OF_OVER_FORMAT, 1, 4);
     }
+
+    @Test
+    void shouldAnnounceWinByWicketsWhenTeamWin() {
+        scoreBoard.setCurrentScore(41);
+        scoreBoard.setTotalWickets(3);
+        scoreBoard.setNoOfOuts(2);
+        scoreBoard.setRequiredScore(40);
+
+        this.commentaryService.announceResults(scoreBoard);
+
+        verify(printStream).println("Won By 2 Wickets");
+    }
+
+    @Test
+    void shouldAnnounceLooseByRunsWhenTeamLoose() {
+        scoreBoard.setCurrentScore(21);
+        scoreBoard.setTotalWickets(3);
+        scoreBoard.setNoOfOuts(2);
+        scoreBoard.setRequiredScore(40);
+
+        this.commentaryService.announceResults(scoreBoard);
+
+        verify(printStream).println("Loose By 19 Runs");
+    }
+
+    @Test
+    void shouldNotAnnounceLoosByRunsWhenTeamWin() {
+        scoreBoard.setCurrentScore(41);
+        scoreBoard.setTotalWickets(3);
+        scoreBoard.setNoOfOuts(2);
+        scoreBoard.setRequiredScore(40);
+
+        this.commentaryService.announceResults(scoreBoard);
+
+        verify(printStream).println("Won By 2 Wickets");
+        verify(printStream, never()).println("Loose By -1 Runs");
+    }
+
+    @Test
+    void shouldAnnounceMatchAsDraw() {
+        scoreBoard.setCurrentScore(39);
+        scoreBoard.setTotalWickets(3);
+        scoreBoard.setNoOfOuts(2);
+        scoreBoard.setRequiredScore(40);
+
+        this.commentaryService.announceResults(scoreBoard);
+
+        verify(printStream).println("Match Draw");
+    }
+
 }
