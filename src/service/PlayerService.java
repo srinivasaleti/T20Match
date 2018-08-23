@@ -42,8 +42,10 @@ public class PlayerService {
         return nonStriker;
     }
 
-    public void takeAction(Score score) {
-        if (score.getValue() % 2 == 1) {
+    public void takeAction(Score score, boolean isOverFinished) {
+        boolean isOddScore = (score.getValue() % 2 == 1);
+        boolean switchStriking = (isOddScore ^ isOverFinished);
+        if (switchStriking) {
             switchStriking();
         }
     }

@@ -65,7 +65,7 @@ public class MatchServiceTest {
 
         matchService.start();
 
-        verify(playerService).takeAction(score);
+        verify(playerService).takeAction(score, this.scoreBoardService.isEndOfTheOver());
     }
 
     @Test

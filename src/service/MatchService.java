@@ -21,7 +21,8 @@ public class MatchService {
             Score score = this.playerService.score();
             Player striker = playerService.striker();
             this.scoreBoardService.updateScore(striker, score);
-            playerService.takeAction(score);
+            boolean endOfTheOver = this.scoreBoardService.isEndOfTheOver();
+            playerService.takeAction(score, endOfTheOver);
             this.teamService.takeAction(score);
         } while (!this.scoreBoardService.isMatchFinish());
     }

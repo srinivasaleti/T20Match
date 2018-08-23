@@ -137,4 +137,19 @@ public class ScoreBoardServiceTest {
         assertTrue(this.scoreBoardService.isMatchFinish());
     }
 
+    @Test
+    public void shouldReturnTrueIfOverFinished() {
+        this.scoreBoard.setNoOfBallsFaced(18);
+
+        assertTrue(this.scoreBoardService.isEndOfTheOver());
+    }
+
+
+    @Test
+    public void shouldReturnFalseIfOverNotFinished() {
+        this.scoreBoard.setNoOfBallsFaced(17);
+
+        assertFalse(this.scoreBoardService.isEndOfTheOver());
+    }
+
 }

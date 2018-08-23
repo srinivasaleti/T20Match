@@ -34,6 +34,10 @@ public class ScoreBoardService {
         return isScoredAllRuns() || isAllOut() || isAllOversDone();
     }
 
+    public boolean isEndOfTheOver() {
+        return this.scoreBoard.getNoOfBallsFaced() % 6 == 0;
+    }
+
     private boolean isScoredAllRuns() {
         return this.scoreBoard.getCurrentScore() >= this.scoreBoard.getRequiredScore();
     }
