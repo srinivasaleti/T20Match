@@ -43,7 +43,7 @@ public class PlayerService {
     }
 
     public void takeAction(Score score) {
-        if(score.getValue() % 2 == 1) {
+        if (score.getValue() % 2 == 1) {
             switchStriking();
         }
     }

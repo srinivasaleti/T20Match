@@ -19,7 +19,7 @@ public class ScoreBoardService {
 
 
     public void updateScore(Player player, Score score) {
-        if(score == Score.OUT) {
+        if (score == Score.OUT) {
             player.goesToPavilions();
             int noOfOuts = this.scoreBoard.getNoOfOuts();
             this.scoreBoard.setNoOfOuts(noOfOuts + OFFSET);
@@ -41,7 +41,7 @@ public class ScoreBoardService {
     }
 
     public boolean isMatchFinish() {
-         return (this.getCurrentScore() >= this.requiredScore) || this.getNumberOfOuts() == teamSize;
+        return (this.getCurrentScore() >= this.requiredScore) || this.getNumberOfOuts() == teamSize;
     }
 
 }
