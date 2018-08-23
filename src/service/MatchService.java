@@ -24,11 +24,15 @@ public class MatchService {
             Score score = this.playerService.score();
             Player striker = playerService.striker();
             this.scoreBoardService.updateScore(striker, score);
-            ScoreBoard scoreBoard = this.scoreBoardService.scoreBoard();
-            this.playerService.takeActionBasedOn(scoreBoard);
-            this.teamService.takeActionBasedOn(scoreBoard);
-            this.commentaryService.announce(scoreBoard);
+            updateEachServiceAboutScoreBoard();
         } while (!this.scoreBoardService.isMatchFinish());
+    }
+
+    private void updateEachServiceAboutScoreBoard() {
+        ScoreBoard scoreBoard = this.scoreBoardService.scoreBoard();
+        this.playerService.takeActionBasedOn(scoreBoard);
+        this.teamService.takeActionBasedOn(scoreBoard);
+        this.commentaryService.announce(scoreBoard);
     }
 
 }
