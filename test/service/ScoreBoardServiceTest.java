@@ -17,7 +17,7 @@ public class ScoreBoardServiceTest {
     @BeforeEach
     void setUp() {
         this.scoreBoard = new ScoreBoard();
-        this.scoreBoardService = new ScoreBoardService(scoreBoard, 10, 4);
+        this.scoreBoardService = new ScoreBoardService(scoreBoard);
         this.player = new Player("Srinu");
     }
 
@@ -25,7 +25,7 @@ public class ScoreBoardServiceTest {
     public void shouldUpdateCurrentScoreAndPlayerScoreByOneRun() {
         this.scoreBoardService.updateScore(player, Score.ONE);
 
-        assertEquals(1, this.scoreBoardService.getCurrentScore());
+        assertEquals(1, this.scoreBoard.getCurrentScore());
         assertEquals(1, this.player.getScore());
     }
 
@@ -35,7 +35,7 @@ public class ScoreBoardServiceTest {
         this.scoreBoardService.updateScore(player, Score.SIX);
         this.scoreBoardService.updateScore(player, Score.THREE);
 
-        assertEquals(10, this.scoreBoardService.getCurrentScore());
+        assertEquals(10, this.scoreBoard.getCurrentScore());
         assertEquals(10, this.player.getScore());
     }
 
@@ -44,7 +44,7 @@ public class ScoreBoardServiceTest {
         this.scoreBoardService.updateScore(player, Score.OUT);
 
         assertTrue(player.out());
-        assertEquals(1, this.scoreBoardService.getNumberOfOuts());
+        assertEquals(1, this.scoreBoard.getNoOfOuts());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class ScoreBoardServiceTest {
         this.scoreBoardService.updateScore(player2, Score.OUT);
         this.scoreBoardService.updateScore(player3, Score.OUT);
 
-        assertEquals(3, this.scoreBoardService.getNumberOfOuts());
+        assertEquals(3, this.scoreBoard.getNoOfOuts());
         assertTrue(player1.out());
         assertTrue(player2.out());
         assertTrue(player3.out());
@@ -65,6 +65,9 @@ public class ScoreBoardServiceTest {
 
     @Test
     public void shouldReturnFalseIfScoreNotLevel() {
+        this.scoreBoard.setRequiredScore(10);
+        this.scoreBoard.setTotalWickets(3);
+
         this.scoreBoardService.updateScore(player, Score.TWO);
         this.scoreBoardService.updateScore(player, Score.THREE);
 
@@ -73,6 +76,8 @@ public class ScoreBoardServiceTest {
 
     @Test
     public void shouldReturnTrueIfScoreLevel() {
+        this.scoreBoard.setRequiredScore(10);
+
         this.scoreBoardService.updateScore(player, Score.TWO);
         this.scoreBoardService.updateScore(player, Score.SIX);
         this.scoreBoardService.updateScore(player, Score.TWO);
@@ -82,6 +87,8 @@ public class ScoreBoardServiceTest {
 
     @Test
     public void shouldReturnTrueIfTeamScoresMoreThanRequiredRuns() {
+        this.scoreBoard.setRequiredScore(10);
+
         this.scoreBoardService.updateScore(player, Score.TWO);
         this.scoreBoardService.updateScore(player, Score.SIX);
         this.scoreBoardService.updateScore(player, Score.THREE);
@@ -91,6 +98,9 @@ public class ScoreBoardServiceTest {
 
     @Test
     public void shouldReturnTrueIfTeamIsAllOut() {
+        this.scoreBoard.setRequiredScore(10);
+        this.scoreBoard.setTotalWickets(3);
+
         this.scoreBoardService.updateScore(player, Score.OUT);
         this.scoreBoardService.updateScore(player, Score.OUT);
         this.scoreBoardService.updateScore(player, Score.OUT);

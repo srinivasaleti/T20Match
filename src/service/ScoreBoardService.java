@@ -8,15 +8,10 @@ public class ScoreBoardService {
 
     private static final int OFFSET = 1;
     private final ScoreBoard scoreBoard;
-    private final int requiredScore;
-    private final int teamSize;
 
-    public ScoreBoardService(ScoreBoard scoreBoard, int requiredScore, int teamSize) {
+    public ScoreBoardService(ScoreBoard scoreBoard) {
         this.scoreBoard = scoreBoard;
-        this.requiredScore = requiredScore;
-        this.teamSize = teamSize;
     }
-
 
     public void updateScore(Player player, Score score) {
         int noOfBallsFaced = this.scoreBoard.getNoOfBallsFaced();
@@ -34,24 +29,17 @@ public class ScoreBoardService {
         player.updateScore(currentPlayerScore + runs);
     }
 
-    public int getCurrentScore() {
-        return this.scoreBoard.getCurrentScore();
-    }
-
-    public int getNumberOfOuts() {
-        return this.scoreBoard.getNoOfOuts();
-    }
 
     public boolean isMatchFinish() {
         return isScoredAllRuns() || isAllOut() || isAllOversDone();
     }
 
     private boolean isScoredAllRuns() {
-        return this.getCurrentScore() >= this.requiredScore;
+        return this.scoreBoard.getCurrentScore() >= this.scoreBoard.getRequiredScore();
     }
 
     private boolean isAllOut() {
-        return this.getNumberOfOuts() == teamSize - 1;
+        return this.scoreBoard.getNoOfOuts() == this.scoreBoard.getTotalWickets();
     }
 
     private boolean isAllOversDone() {

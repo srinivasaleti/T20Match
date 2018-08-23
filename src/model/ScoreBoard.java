@@ -5,10 +5,14 @@ public class ScoreBoard {
     private int noOfOuts;
     private int noOfBallsFaced;
     private int totalOvers;
+    private int requiredScore;
+    private int totalWickets;
 
     public ScoreBoard() {
         this.currentScore = 0;
         this.noOfBallsFaced = 0;
+        this.requiredScore = 0;
+        this.totalWickets = 0;
     }
 
     public int getCurrentScore() {
@@ -41,6 +45,22 @@ public class ScoreBoard {
 
     public void setTotalOvers(int totalOvers) {
         this.totalOvers = totalOvers;
+    }
+
+    public int getRequiredScore() {
+        return requiredScore;
+    }
+
+    public void setRequiredScore(int requiredScore) {
+        this.requiredScore = requiredScore;
+    }
+
+    public int getTotalWickets() {
+        return totalWickets;
+    }
+
+    public void setTotalWickets(int totalWickets) {
+        this.totalWickets = totalWickets;
     }
 
 }

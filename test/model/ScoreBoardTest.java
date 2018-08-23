@@ -80,4 +80,32 @@ public class ScoreBoardTest {
         assertEquals(this.scoreBoard.getTotalOvers(), 2);
     }
 
+    @Test
+    void shouldSetTotalWicketsAsOne() {
+        this.scoreBoard.setTotalWickets(1);
+
+        assertEquals(this.scoreBoard.getTotalWickets(), 1);
+    }
+
+    @Test
+    void shouldSetTotalWicketsAsTwo() {
+        this.scoreBoard.setTotalWickets(2);
+
+        assertEquals(this.scoreBoard.getTotalWickets(), 2);
+    }
+
+    @Test
+    void shouldSetRequiredScoreAsTwo() {
+        this.scoreBoard.setRequiredScore(2);
+
+        assertEquals(this.scoreBoard.getRequiredScore(), 2);
+    }
+
+    @Test
+    void shouldSetRequiredScoreAsFive() {
+        this.scoreBoard.setRequiredScore(5);
+
+        assertEquals(this.scoreBoard.getRequiredScore(), 5);
+    }
+
 }
