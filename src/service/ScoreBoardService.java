@@ -15,6 +15,8 @@ public class ScoreBoardService {
 
     public void updateScore(Player player, Score score) {
         int noOfBallsFaced = this.scoreBoard.getNoOfBallsFaced();
+        this.scoreBoard.setCurrentBallStatus(score);
+        this.scoreBoard.setCurrentPlayer(player);
         this.scoreBoard.setNoOfBallsFaced(noOfBallsFaced + OFFSET);
         if (score == Score.OUT) {
             player.goesToPavilions();
@@ -36,6 +38,10 @@ public class ScoreBoardService {
 
     public boolean isEndOfTheOver() {
         return this.scoreBoard.getNoOfBallsFaced() % 6 == 0;
+    }
+
+    public ScoreBoard scoreBoard() {
+        return this.scoreBoard;
     }
 
     private boolean isScoredAllRuns() {

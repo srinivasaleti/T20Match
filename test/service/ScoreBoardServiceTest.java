@@ -152,4 +152,29 @@ public class ScoreBoardServiceTest {
         assertFalse(this.scoreBoardService.isEndOfTheOver());
     }
 
+    @Test
+    public void shouldSetCurrentBallStatusAsONE() {
+        this.scoreBoardService.updateScore(player, Score.ONE);
+
+        assertEquals(this.scoreBoard.getCurrentBallStatus(), Score.ONE);
+    }
+
+    @Test
+    public void shouldSetCurrentBallStatusAsOUT() {
+        this.scoreBoardService.updateScore(player, Score.OUT);
+
+        assertEquals(this.scoreBoard.getCurrentBallStatus(), Score.OUT);
+    }
+
+    @Test
+    public void shouldSetCurrentPlayerOnScoreBoard() {
+        this.scoreBoardService.updateScore(player, Score.OUT);
+
+        assertEquals(this.scoreBoard.getCurrentPlayer(), player);
+    }
+
+    @Test
+    public void shouldReturnScoreBoard() {
+        assertEquals(scoreBoard, this.scoreBoardService.scoreBoard());
+    }
 }

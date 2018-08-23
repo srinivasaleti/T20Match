@@ -2,6 +2,7 @@ package service;
 
 import model.Player;
 import model.Score;
+import model.ScoreBoard;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,9 +43,11 @@ public class PlayerService {
         return nonStriker;
     }
 
-    public void takeAction(Score score, boolean isOverFinished) {
-        boolean isOddScore = (score.getValue() % 2 == 1);
-        boolean switchStriking = (isOddScore ^ isOverFinished);
+    public void takeActionBasedOn(ScoreBoard scoreBoard) {
+        Score currentBallStatus = scoreBoard.getCurrentBallStatus();
+        boolean oddScore = (currentBallStatus.getValue() % 2 == 1);
+        boolean endOfTheOver = scoreBoard.getNoOfBallsFaced() % 6 == 0;
+        boolean switchStriking = (oddScore ^ endOfTheOver);
         if (switchStriking) {
             switchStriking();
         }

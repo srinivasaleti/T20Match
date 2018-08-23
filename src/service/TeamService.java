@@ -1,7 +1,7 @@
 package service;
 
 import model.Player;
-import model.Score;
+import model.ScoreBoard;
 import model.Team;
 
 import static model.Score.OUT;
@@ -23,8 +23,9 @@ public class TeamService {
         }
     }
 
-    public void takeAction(Score score) {
-        if (score == OUT && this.team.hasNext()) {
+    public void takeActionBasedOn(ScoreBoard scoreBoard) {
+        boolean out = scoreBoard.getCurrentBallStatus() == OUT;
+        if (out && this.team.hasNext()) {
             Player next = this.team.next();
             this.playerService.setStriker(next);
         }

@@ -2,6 +2,7 @@ package service;
 
 import model.Player;
 import model.Score;
+import model.ScoreBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,14 +17,15 @@ public class PlayerServiceTest {
     private static final int NUMBER_OF_SCORE_ENUMS = 8;
 
     private PlayerService playerService;
+    private ScoreBoard scoreBoard;
     private Random random;
 
     @BeforeEach
     void setUp() {
         random = mock(Random.class);
         playerService = new PlayerService(random);
+        scoreBoard = mock(ScoreBoard.class);
     }
-
 
     @Test
     void shouldReturnOUT() {
@@ -122,8 +124,10 @@ public class PlayerServiceTest {
         Player nonStriker = new Player("Kohli");
         playerService.setStriker(striker);
         playerService.setNonStriker(nonStriker);
+        when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.ONE);
+        when(scoreBoard.getNoOfBallsFaced()).thenReturn(5);
 
-        playerService.takeAction(Score.ONE, false);
+        playerService.takeActionBasedOn(scoreBoard);
 
         assertEquals(playerService.striker(), nonStriker);
         assertEquals(playerService.nonStriker(), striker);
@@ -135,8 +139,10 @@ public class PlayerServiceTest {
         Player nonStriker = new Player("Kohli");
         playerService.setStriker(striker);
         playerService.setNonStriker(nonStriker);
+        when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.TWO);
+        when(scoreBoard.getNoOfBallsFaced()).thenReturn(5);
 
-        playerService.takeAction(Score.TWO, false);
+        playerService.takeActionBasedOn(scoreBoard);
 
         assertEquals(playerService.striker(), striker);
         assertEquals(playerService.nonStriker(), nonStriker);
@@ -148,8 +154,10 @@ public class PlayerServiceTest {
         Player nonStriker = new Player("Kohli");
         playerService.setStriker(striker);
         playerService.setNonStriker(nonStriker);
+        when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.ONE);
+        when(scoreBoard.getNoOfBallsFaced()).thenReturn(6);
 
-        playerService.takeAction(Score.ONE, true);
+        playerService.takeActionBasedOn(scoreBoard);
 
         assertEquals(playerService.striker(), striker);
         assertEquals(playerService.nonStriker(), nonStriker);
@@ -161,8 +169,10 @@ public class PlayerServiceTest {
         Player nonStriker = new Player("Kohli");
         playerService.setStriker(striker);
         playerService.setNonStriker(nonStriker);
+        when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.TWO);
+        when(scoreBoard.getNoOfBallsFaced()).thenReturn(6);
 
-        playerService.takeAction(Score.TWO, true);
+        playerService.takeActionBasedOn(scoreBoard);
 
         assertEquals(playerService.striker(), nonStriker);
         assertEquals(playerService.nonStriker(), striker);

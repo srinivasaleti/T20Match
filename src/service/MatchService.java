@@ -2,6 +2,7 @@ package service;
 
 import model.Player;
 import model.Score;
+import model.ScoreBoard;
 
 public class MatchService {
 
@@ -21,9 +22,9 @@ public class MatchService {
             Score score = this.playerService.score();
             Player striker = playerService.striker();
             this.scoreBoardService.updateScore(striker, score);
-            boolean endOfTheOver = this.scoreBoardService.isEndOfTheOver();
-            playerService.takeAction(score, endOfTheOver);
-            this.teamService.takeAction(score);
+            ScoreBoard scoreBoard = this.scoreBoardService.scoreBoard();
+            this.playerService.takeActionBasedOn(scoreBoard);
+            this.teamService.takeActionBasedOn(scoreBoard);
         } while (!this.scoreBoardService.isMatchFinish());
     }
 

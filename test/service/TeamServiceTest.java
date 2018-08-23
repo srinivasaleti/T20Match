@@ -2,6 +2,7 @@ package service;
 
 import model.Player;
 import model.Score;
+import model.ScoreBoard;
 import model.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ class TeamServiceTest {
 
     private TeamService teamService;
     private PlayerService playerService;
+    private ScoreBoard scoreBoard;
     private Team team;
 
     private final Player srinu = new Player("Srinu");
@@ -20,6 +22,7 @@ class TeamServiceTest {
 
     @BeforeEach
     void setUp() {
+        this.scoreBoard = mock(ScoreBoard.class);
         this.team = mock(Team.class);
         this.playerService = mock(PlayerService.class);
         this.teamService = new TeamService(team, playerService);
@@ -49,8 +52,9 @@ class TeamServiceTest {
     @Test
     public void shouldAskTeamToKnowWhetherNextBatsMenIsAvailableOrNotWhenStrikerIsOut() {
         when(team.hasNext()).thenReturn(false);
+        when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.OUT);
 
-        this.teamService.takeAction(Score.OUT);
+        this.teamService.takeActionBasedOn(scoreBoard);
 
         verify(team).hasNext();
     }
@@ -58,8 +62,9 @@ class TeamServiceTest {
     @Test
     public void shouldGetTheNextStrikerWhenStrikerIsOut() {
         when(team.hasNext()).thenReturn(true);
+        when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.OUT);
 
-        this.teamService.takeAction(Score.OUT);
+        this.teamService.takeActionBasedOn(scoreBoard);
 
         verify(team, times(1)).next();
     }
@@ -69,9 +74,10 @@ class TeamServiceTest {
         when(team.hasNext()).thenReturn(true);
         when(team.hasAtLeastTwoBatsMen()).thenReturn(true);
         when(team.next()).thenReturn(srinu).thenReturn(kohli).thenReturn(ramu);
+        when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.OUT);
 
         this.teamService.assignStrikerAndNonStriker();
-        this.teamService.takeAction(Score.OUT);
+        this.teamService.takeActionBasedOn(scoreBoard);
 
         verify(playerService).setStriker(ramu);
     }
@@ -79,8 +85,9 @@ class TeamServiceTest {
     @Test
     public void shouldNotChangeTheStrikerWhenStrikerIsNotOut() {
         when(team.hasNext()).thenReturn(true);
+        when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.ONE);
 
-        this.teamService.takeAction(Score.ONE);
+        this.teamService.takeActionBasedOn(scoreBoard);
 
         verify(playerService, never()).setStriker(any());
     }
@@ -88,8 +95,9 @@ class TeamServiceTest {
     @Test
     public void shouldNotChangeTheStrikerWhenStrikerIsOutAndThereIsNoNextBatsMen() {
         when(team.hasNext()).thenReturn(false);
+        when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.OUT);
 
-        this.teamService.takeAction(Score.ONE);
+        this.teamService.takeActionBasedOn(scoreBoard);
 
         verify(playerService, never()).setStriker(any());
     }

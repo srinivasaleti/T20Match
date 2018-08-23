@@ -2,6 +2,7 @@ package service;
 
 import model.Player;
 import model.Score;
+import model.ScoreBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,13 +60,15 @@ public class MatchServiceTest {
 
     @Test
     public void shouldAskPlayerServiceToTakeProperActionBasedOnScore() {
+        ScoreBoard scoreBoard = mock(ScoreBoard.class);
         Score score = Score.ZERO;
         when(scoreBoardService.isMatchFinish()).thenReturn(true);
         when(playerService.score()).thenReturn(score);
+        when(scoreBoardService.scoreBoard()).thenReturn(scoreBoard);
 
         matchService.start();
 
-        verify(playerService).takeAction(score, this.scoreBoardService.isEndOfTheOver());
+        verify(playerService).takeActionBasedOn(scoreBoard);
     }
 
     @Test
@@ -81,13 +84,14 @@ public class MatchServiceTest {
 
     @Test
     public void shouldAskTeamServiceToTakeProperActionBasedOnScore() {
+        ScoreBoard scoreBoard = mock(ScoreBoard.class);
         Score score = Score.ONE;
         when(scoreBoardService.isMatchFinish()).thenReturn(true);
         when(playerService.score()).thenReturn(score);
-
+        when(scoreBoardService.scoreBoard()).thenReturn(scoreBoard);
         matchService.start();
 
-        verify(teamService).takeAction(score);
+        verify(teamService).takeActionBasedOn(scoreBoard);
     }
 
 }
