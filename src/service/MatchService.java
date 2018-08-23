@@ -1,8 +1,7 @@
 package service;
 
+import model.Player;
 import model.Score;
-
-import static model.Score.OUT;
 
 public class MatchService {
 
@@ -17,17 +16,9 @@ public class MatchService {
     public void start() {
         do {
             Score score = this.playerService.score();
-
-            executionActionBasedOnScore(score);
+            Player striker = playerService.striker();
+            this.scoreBoardService.updateScore(striker, score);
         } while (!this.scoreBoardService.isMatchFinish());
     }
 
-    private void executionActionBasedOnScore(Score score) {
-        if (score == OUT) {
-            scoreBoardService.incrementNoOfOuts();
-            return;
-        }
-        int runs = score.getValue();
-        this.scoreBoardService.addScore(runs);
-    }
 }

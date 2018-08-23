@@ -1,5 +1,6 @@
 package service;
 
+import model.Player;
 import model.Score;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,6 +79,24 @@ public class PlayerServiceTest {
         when(random.nextInt(NUMBER_OF_SCORE_ENUMS)).thenReturn(7);
 
         assertEquals(Score.SIX, playerService.score());
+    }
+
+    @Test
+    public void shouldSetStrikerAsSrinu() {
+        Player striker = new Player("Srinu");
+
+        playerService.setStriker(striker);
+
+        assertEquals(playerService.striker(), striker);
+    }
+
+    @Test
+    public void shouldSetStrikerAsKohli() {
+        Player striker = new Player("Kohli");
+
+        playerService.setStriker(striker);
+
+        assertEquals(playerService.striker(), striker);
     }
 
 }

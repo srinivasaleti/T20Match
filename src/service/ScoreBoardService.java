@@ -1,5 +1,7 @@
 package service;
 
+import model.Player;
+import model.Score;
 import model.ScoreBoard;
 
 public class ScoreBoardService {
@@ -15,17 +17,23 @@ public class ScoreBoardService {
         this.teamSize = teamSize;
     }
 
-    public void addScore(int runs) {
+
+    public void updateScore(Player player, Score score) {
+        if(score == Score.OUT) {
+            player.goesToPavilions();
+            int noOfOuts = this.scoreBoard.getNoOfOuts();
+            this.scoreBoard.setNoOfOuts(noOfOuts + OFFSET);
+            return;
+        }
+        int runs = score.getValue();
         int currentScore = this.scoreBoard.getCurrentScore();
         this.scoreBoard.setCurrentScore(currentScore + runs);
+        int currentPlayerScore = player.getScore();
+        player.updateScore(currentPlayerScore + runs);
     }
 
     public int getCurrentScore() {
         return this.scoreBoard.getCurrentScore();
-    }
-
-    public void incrementNoOfOuts() {
-        this.scoreBoard.setNoOfOuts(this.scoreBoard.getNoOfOuts() + OFFSET);
     }
 
     public int getNumberOfOuts() {

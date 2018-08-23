@@ -1,58 +1,38 @@
 package service;
 
+import model.Player;
 import model.Score;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 public class MatchServiceTest {
 
     private MatchService matchService;
     private ScoreBoardService scoreBoardService;
     private PlayerService playerService;
+    private Player striker;
 
     @BeforeEach
     void setUp() {
         scoreBoardService = mock(ScoreBoardService.class);
         playerService = mock(PlayerService.class);
+        striker = mock(Player.class);
         matchService = new MatchService(scoreBoardService, playerService);
+
+        when(playerService.striker()).thenReturn(striker);
     }
 
     @Test
-    public void shouldNotIncrementScoreIfPlayerDoesNotScoreAnyRuns() {
+    public void shouldUpdateScore() {
         Score zeroRuns = Score.ZERO;
         when(scoreBoardService.isMatchFinish()).thenReturn(true);
         when(playerService.score()).thenReturn(zeroRuns);
 
         matchService.start();
 
-        verify(scoreBoardService).addScore(zeroRuns.getValue());
-    }
-
-    @Test
-    public void shouldIncrementCurrentScoreIfPlayerScoredMoreThanOneRun() {
-        Score twoRuns = Score.TWO;
-        when(scoreBoardService.isMatchFinish()).thenReturn(true);
-        when(playerService.score()).thenReturn(twoRuns);
-
-        matchService.start();
-
-        verify(scoreBoardService).addScore(twoRuns.getValue());
-    }
-
-    @Test
-    public void shouldAddIncrementOutsIfPlayerIsOut() {
-        Score zeroRuns = Score.OUT;
-        when(scoreBoardService.isMatchFinish()).thenReturn(true);
-        when(playerService.score()).thenReturn(zeroRuns);
-
-        matchService.start();
-
-        verify(scoreBoardService).incrementNoOfOuts();
+        verify(scoreBoardService).updateScore(striker, zeroRuns);
     }
 
     @Test
@@ -71,6 +51,7 @@ public class MatchServiceTest {
 
         matchService.start();
 
+        verify(scoreBoardService, times(4)).updateScore(any(), any());
         verify(scoreBoardService, times(4)).isMatchFinish();
     }
 }
