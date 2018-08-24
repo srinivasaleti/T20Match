@@ -14,24 +14,16 @@ public class ScoreBoardService {
     }
 
     public void updateScore(Player player, Score score) {
-        int noOfBallsFaced = this.scoreBoard.getNoOfBallsFaced();
-        player.setBallsFaced(player.ballsFaced() + OFFSET);
-        this.scoreBoard.setCurrentBallStatus(score);
-        this.scoreBoard.setCurrentPlayer(player);
-        this.scoreBoard.setNoOfBallsFaced(noOfBallsFaced + OFFSET);
+        this.updateNumberOfBallsFacedByPlayer(player);
+        this.updateCurrentScoreBoardStatus(player, score);
         if (score == Score.OUT) {
             player.goesToPavilions();
-            int noOfOuts = this.scoreBoard.getNoOfOuts();
-            this.scoreBoard.setNoOfOuts(noOfOuts + OFFSET);
+            this.updateWickets();
             return;
         }
-        int runs = score.getValue();
-        int currentScore = this.scoreBoard.getCurrentScore();
-        this.scoreBoard.setCurrentScore(currentScore + runs);
-        int currentPlayerScore = player.getScore();
-        player.updateScore(currentPlayerScore + runs);
+        this.updateRunsOnScoreBoard(score);
+        this.updatePlayerScore(player, score);
     }
-
 
     public boolean isMatchFinish() {
         return isScoredAllRuns() || isAllOut() || isAllOversDone();
@@ -43,6 +35,35 @@ public class ScoreBoardService {
 
     public ScoreBoard scoreBoard() {
         return this.scoreBoard;
+    }
+
+    private void updateCurrentScoreBoardStatus(Player player, Score score) {
+        int noOfBallsFaced = this.scoreBoard.getNoOfBallsFaced();
+        this.scoreBoard.setCurrentBallStatus(score);
+        this.scoreBoard.setCurrentPlayer(player);
+        this.scoreBoard.setNoOfBallsFaced(noOfBallsFaced + OFFSET);
+    }
+
+    private void updatePlayerScore(Player player, Score score) {
+        int playerScore = player.getScore();
+        int runs = score.getValue();
+        player.updateScore(playerScore + runs);
+    }
+
+    private void updateRunsOnScoreBoard(Score score) {
+        int currentScore = this.scoreBoard.getCurrentScore();
+        int runs = score.getValue();
+        this.scoreBoard.setCurrentScore(currentScore + runs);
+    }
+
+    private void updateNumberOfBallsFacedByPlayer(Player player) {
+        int noOfBallsFacedSoFar = player.ballsFaced();
+        player.setBallsFaced(noOfBallsFacedSoFar + OFFSET);
+    }
+
+    private void updateWickets() {
+        int noOfOuts = this.scoreBoard.getNoOfOuts();
+        this.scoreBoard.setNoOfOuts(noOfOuts + OFFSET);
     }
 
     private boolean isScoredAllRuns() {
