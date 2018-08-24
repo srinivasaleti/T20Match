@@ -6,7 +6,6 @@ import model.ScoreBoard;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import static model.Score.*;
 
@@ -14,17 +13,17 @@ public class PlayerService {
 
     private static final List<Score> scores = Arrays.asList(OUT, ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX);
 
-    private final Random random;
+    private final RandomScoreGeneratorService randomScoreGeneratorService;
     private Player striker;
     private Player nonStriker;
 
-    public PlayerService(Random random) {
-        this.random = random;
+    public PlayerService(RandomScoreGeneratorService randomScoreGeneratorService) {
+        this.randomScoreGeneratorService = randomScoreGeneratorService;
     }
 
     public Score score() {
-        int randomScore = this.random.nextInt(scores.size());
-        return scores.get(randomScore);
+        List<Integer> scoreWeights = this.striker.getScoreWeights();
+        return this.randomScoreGeneratorService.generateBasedOnFrequencies(scores, scoreWeights);
     }
 
     public void setStriker(Player striker) {

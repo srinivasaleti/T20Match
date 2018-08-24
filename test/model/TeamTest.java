@@ -8,13 +8,14 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class TeamTest {
 
     private Team team;
-    private final Player srinu = new Player("Srinu");
-    private final Player kohli = new Player("Kohli");
-    private final Player sachin = new Player("sachin");
+    private final Player srinu = mock(Player.class);
+    private final Player kohli = mock(Player.class);
+    private final Player sachin = mock(Player.class);
 
     private List<Player> players = Arrays.asList(srinu, kohli, sachin);
 

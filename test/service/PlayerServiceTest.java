@@ -6,11 +6,11 @@ import model.ScoreBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class PlayerServiceTest {
 
@@ -18,74 +18,54 @@ public class PlayerServiceTest {
 
     private PlayerService playerService;
     private ScoreBoard scoreBoard;
-    private Random random;
+    private RandomScoreGeneratorService randomScoreGeneratorService;
+    private Player striker;
+    private Player nonStriker;
+    private List scoreWeights = mock(List.class);
 
     @BeforeEach
     void setUp() {
-        random = mock(Random.class);
-        playerService = new PlayerService(random);
+        this.striker = mock(Player.class);
+        this.nonStriker = mock(Player.class);
+        randomScoreGeneratorService = mock(RandomScoreGeneratorService.class);
+        playerService = new PlayerService(randomScoreGeneratorService);
         scoreBoard = mock(ScoreBoard.class);
+
+        playerService.setStriker(this.striker);
+        playerService.setNonStriker(this.nonStriker);
     }
 
     @Test
-    void shouldReturnOUT() {
-        when(random.nextInt(NUMBER_OF_SCORE_ENUMS)).thenReturn(0);
+    void shouldAskRandomScoreGeneratorServiceToGetAScore() {
+        when(striker.getScoreWeights()).thenReturn(scoreWeights);
+        when(randomScoreGeneratorService.generateBasedOnFrequencies(any(), any())).thenReturn(Score.OUT);
+
+        playerService.score();
+
+        verify(this.randomScoreGeneratorService).generateBasedOnFrequencies(any(), any());
+    }
+
+    @Test
+    void shouldReturnScoreReturnByRandomScoreGeneratorService() {
+        when(striker.getScoreWeights()).thenReturn(scoreWeights);
+        when(randomScoreGeneratorService.generateBasedOnFrequencies(any(), any())).thenReturn(Score.OUT);
 
         assertEquals(Score.OUT, playerService.score());
     }
 
     @Test
-    void shouldReturnZERO() {
-        when(random.nextInt(NUMBER_OF_SCORE_ENUMS)).thenReturn(1);
+    void shouldReturnZEROIfRandomGeneratorServiceReturnsZero() {
+        playerService.setStriker(this.striker);
+        when(striker.getScoreWeights()).thenReturn(scoreWeights);
+        when(randomScoreGeneratorService.generateBasedOnFrequencies(any(), any())).thenReturn(Score.ZERO);
 
         assertEquals(Score.ZERO, playerService.score());
     }
 
-    @Test
-    void shouldReturnONE() {
-        when(random.nextInt(NUMBER_OF_SCORE_ENUMS)).thenReturn(2);
-
-        assertEquals(Score.ONE, playerService.score());
-    }
-
-    @Test
-    void shouldReturnTWO() {
-        when(random.nextInt(NUMBER_OF_SCORE_ENUMS)).thenReturn(3);
-
-        assertEquals(Score.TWO, playerService.score());
-    }
-
-    @Test
-    void shouldReturnTHREE() {
-        when(random.nextInt(NUMBER_OF_SCORE_ENUMS)).thenReturn(4);
-
-        assertEquals(Score.THREE, playerService.score());
-    }
-
-    @Test
-    void shouldReturnFOUR() {
-        when(random.nextInt(NUMBER_OF_SCORE_ENUMS)).thenReturn(5);
-
-        assertEquals(Score.FOUR, playerService.score());
-    }
-
-    @Test
-    void shouldReturnFIVE() {
-        when(random.nextInt(NUMBER_OF_SCORE_ENUMS)).thenReturn(6);
-
-        assertEquals(Score.FIVE, playerService.score());
-    }
-
-    @Test
-    void shouldReturnSIX() {
-        when(random.nextInt(NUMBER_OF_SCORE_ENUMS)).thenReturn(7);
-
-        assertEquals(Score.SIX, playerService.score());
-    }
 
     @Test
     public void shouldSetStrikerAsSrinu() {
-        Player striker = new Player("Srinu");
+        Player striker = new Player("Srinu", scoreWeights);
 
         playerService.setStriker(striker);
 
@@ -94,7 +74,7 @@ public class PlayerServiceTest {
 
     @Test
     public void shouldSetStrikerAsKohli() {
-        Player striker = new Player("Kohli");
+        Player striker = new Player("Kohli", scoreWeights);
 
         playerService.setStriker(striker);
 
@@ -102,7 +82,7 @@ public class PlayerServiceTest {
     }
 
     public void shouldSetNonStrikerAsSrinu() {
-        Player nonStriker = new Player("Srinu");
+        Player nonStriker = new Player("Srinu", scoreWeights);
 
         playerService.setNonStriker(nonStriker);
 
@@ -111,7 +91,7 @@ public class PlayerServiceTest {
 
     @Test
     public void shouldSetNonStrikerAsKohli() {
-        Player nonStriker = new Player("Kohli");
+        Player nonStriker = new Player("Kohli", scoreWeights);
 
         playerService.setNonStriker(nonStriker);
 
@@ -120,8 +100,8 @@ public class PlayerServiceTest {
 
     @Test
     public void shouldRotateTheStrikeWhenStrikerScoresOddRuns() {
-        Player striker = new Player("Srinu");
-        Player nonStriker = new Player("Kohli");
+        Player striker = new Player("Srinu", scoreWeights);
+        Player nonStriker = new Player("Kohli", scoreWeights);
         playerService.setStriker(striker);
         playerService.setNonStriker(nonStriker);
         when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.ONE);
@@ -135,10 +115,7 @@ public class PlayerServiceTest {
 
     @Test
     public void shouldNotRotateTheStrikeWhenStrikerScoresEvenRuns() {
-        Player striker = new Player("Srinu");
-        Player nonStriker = new Player("Kohli");
-        playerService.setStriker(striker);
-        playerService.setNonStriker(nonStriker);
+
         when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.TWO);
         when(scoreBoard.getNoOfBallsFaced()).thenReturn(5);
 
@@ -150,8 +127,8 @@ public class PlayerServiceTest {
 
     @Test
     public void shouldNotRotateTheStrikeWhenStrikerScoresOddRunsAtEndOfOver() {
-        Player striker = new Player("Srinu");
-        Player nonStriker = new Player("Kohli");
+        Player striker = new Player("Srinu", scoreWeights);
+        Player nonStriker = new Player("Kohli", scoreWeights);
         playerService.setStriker(striker);
         playerService.setNonStriker(nonStriker);
         when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.ONE);
@@ -165,8 +142,8 @@ public class PlayerServiceTest {
 
     @Test
     public void shouldSwitchTheStrikeWhenStrikerScoresEvenRunsAtEndOfOver() {
-        Player striker = new Player("Srinu");
-        Player nonStriker = new Player("Kohli");
+        Player striker = new Player("Srinu", scoreWeights);
+        Player nonStriker = new Player("Kohli", scoreWeights);
         playerService.setStriker(striker);
         playerService.setNonStriker(nonStriker);
         when(scoreBoard.getCurrentBallStatus()).thenReturn(Score.TWO);

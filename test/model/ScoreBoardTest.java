@@ -3,7 +3,10 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 public class ScoreBoardTest {
 
@@ -110,7 +113,7 @@ public class ScoreBoardTest {
 
     @Test
     public void shouldSetCurrentPlayerAsSrinu() {
-        Player striker = new Player("Srinu");
+        Player striker = new Player("Srinu", mock(List.class));
 
         scoreBoard.setCurrentPlayer(striker);
 
@@ -119,7 +122,7 @@ public class ScoreBoardTest {
 
     @Test
     public void shouldSetCurrentPlayerAsKohli() {
-        Player striker = new Player("Kohli");
+        Player striker = new Player("Kohli", mock(List.class));
 
         scoreBoard.setCurrentPlayer(striker);
 

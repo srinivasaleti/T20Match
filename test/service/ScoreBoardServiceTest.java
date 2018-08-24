@@ -6,7 +6,10 @@ import model.ScoreBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 public class ScoreBoardServiceTest {
 
@@ -18,7 +21,7 @@ public class ScoreBoardServiceTest {
     void setUp() {
         this.scoreBoard = new ScoreBoard();
         this.scoreBoardService = new ScoreBoardService(scoreBoard);
-        this.player = new Player("Srinu");
+        this.player = new Player("Srinu", mock(List.class));
     }
 
     @Test
@@ -49,9 +52,9 @@ public class ScoreBoardServiceTest {
 
     @Test
     public void shouldMakeThreePlayersAsOut() {
-        Player player1 = new Player("Srinu");
-        Player player2 = new Player("Kohli");
-        Player player3 = new Player("Sachine");
+        Player player1 = new Player("Srinu", mock(List.class));
+        Player player2 = new Player("Kohli", mock(List.class));
+        Player player3 = new Player("Sachine", mock(List.class));
 
         this.scoreBoardService.updateScore(player1, Score.OUT);
         this.scoreBoardService.updateScore(player2, Score.OUT);

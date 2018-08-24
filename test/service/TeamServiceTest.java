@@ -7,6 +7,8 @@ import model.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 
 class TeamServiceTest {
@@ -16,9 +18,12 @@ class TeamServiceTest {
     private ScoreBoard scoreBoard;
     private Team team;
 
-    private final Player srinu = new Player("Srinu");
-    private final Player ramu = new Player("ramu");
-    private final Player kohli = new Player("Kohli");
+    private final List<Integer> srinuScoreWieghts = mock(List.class);
+    private final List<Integer> ramuScoreWieghts = mock(List.class);
+    private final List<Integer> koliScoreWieghts = mock(List.class);
+    private final Player srinu = new Player("Srinu", srinuScoreWieghts);
+    private final Player ramu = new Player("ramu", ramuScoreWieghts);
+    private final Player kohli = new Player("Kohli", koliScoreWieghts);
 
     @BeforeEach
     void setUp() {

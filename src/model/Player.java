@@ -1,13 +1,17 @@
 package model;
 
+import java.util.List;
+
 public class Player {
     private final String name;
     private int score;
     private boolean out;
     private int ballsFaced;
+    private final List<Integer> scoreWeights;
 
-    public Player(String name) {
+    public Player(String name, List<Integer> scoreWeights) {
         this.name = name;
+        this.scoreWeights = scoreWeights;
         this.score = 0;
         this.out = false;
     }
@@ -38,6 +42,10 @@ public class Player {
 
     public void setBallsFaced(int ballsFaced) {
         this.ballsFaced = ballsFaced;
+    }
+
+    public List<Integer> getScoreWeights() {
+        return scoreWeights;
     }
 
 }

@@ -29,7 +29,7 @@ class CommentaryServiceTest {
     @BeforeEach
     void setUp() {
         this.printStream = mock(PrintStream.class);
-        this.player = new Player("Srinu");
+        this.player = new Player("Srinu", mock(List.class));
         this.scoreBoard = new ScoreBoard();
         this.commentaryService = new CommentaryService(printStream);
     }
@@ -162,9 +162,9 @@ class CommentaryServiceTest {
 
     @Test
     void shouldAnnounceEachPlayerScore() {
-        Player kiratBoli = new Player("Kirat Boli");
-        Player nsShodhi = new Player("N.S Shodhi");
-        Player rRumhrah = new Player("R Rumhrah");
+        Player kiratBoli = new Player("Kirat Boli", mock(List.class));
+        Player nsShodhi = new Player("N.S Shodhi", mock(List.class));
+        Player rRumhrah = new Player("R Rumhrah", mock(List.class));
         List<Player> playerList = Arrays.asList(kiratBoli, nsShodhi, rRumhrah);
         Team team = new Team(playerList);
 
