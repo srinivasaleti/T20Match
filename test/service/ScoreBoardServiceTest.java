@@ -26,7 +26,7 @@ public class ScoreBoardServiceTest {
 
     @Test
     public void shouldUpdateCurrentScoreAndPlayerScoreByOneRun() {
-        this.scoreBoardService.updateScore(player, Score.ONE);
+        this.scoreBoardService.update(player, Score.ONE);
 
         assertEquals(1, this.scoreBoard.getCurrentScore());
         assertEquals(1, this.player.getScore());
@@ -34,9 +34,9 @@ public class ScoreBoardServiceTest {
 
     @Test
     public void shouldUpdateCurrentScoreAndPlayerScoreByTenRuns() {
-        this.scoreBoardService.updateScore(player, Score.ONE);
-        this.scoreBoardService.updateScore(player, Score.SIX);
-        this.scoreBoardService.updateScore(player, Score.THREE);
+        this.scoreBoardService.update(player, Score.ONE);
+        this.scoreBoardService.update(player, Score.SIX);
+        this.scoreBoardService.update(player, Score.THREE);
 
         assertEquals(10, this.scoreBoard.getCurrentScore());
         assertEquals(10, this.player.getScore());
@@ -44,7 +44,7 @@ public class ScoreBoardServiceTest {
 
     @Test
     public void shouldMakePlayerAsOut() {
-        this.scoreBoardService.updateScore(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.OUT);
 
         assertTrue(player.out());
         assertEquals(1, this.scoreBoard.getNoOfOuts());
@@ -56,9 +56,9 @@ public class ScoreBoardServiceTest {
         Player player2 = new Player("Kohli", mock(List.class));
         Player player3 = new Player("Sachine", mock(List.class));
 
-        this.scoreBoardService.updateScore(player1, Score.OUT);
-        this.scoreBoardService.updateScore(player2, Score.OUT);
-        this.scoreBoardService.updateScore(player3, Score.OUT);
+        this.scoreBoardService.update(player1, Score.OUT);
+        this.scoreBoardService.update(player2, Score.OUT);
+        this.scoreBoardService.update(player3, Score.OUT);
 
         assertEquals(3, this.scoreBoard.getNoOfOuts());
         assertTrue(player1.out());
@@ -71,8 +71,8 @@ public class ScoreBoardServiceTest {
         this.scoreBoard.setRequiredScore(10);
         this.scoreBoard.setTotalWickets(3);
 
-        this.scoreBoardService.updateScore(player, Score.TWO);
-        this.scoreBoardService.updateScore(player, Score.THREE);
+        this.scoreBoardService.update(player, Score.TWO);
+        this.scoreBoardService.update(player, Score.THREE);
 
         assertFalse(this.scoreBoardService.isMatchFinish());
     }
@@ -81,9 +81,9 @@ public class ScoreBoardServiceTest {
     public void shouldReturnTrueIfScoreLevel() {
         this.scoreBoard.setRequiredScore(10);
 
-        this.scoreBoardService.updateScore(player, Score.TWO);
-        this.scoreBoardService.updateScore(player, Score.SIX);
-        this.scoreBoardService.updateScore(player, Score.TWO);
+        this.scoreBoardService.update(player, Score.TWO);
+        this.scoreBoardService.update(player, Score.SIX);
+        this.scoreBoardService.update(player, Score.TWO);
 
         assertTrue(this.scoreBoardService.isMatchFinish());
     }
@@ -92,9 +92,9 @@ public class ScoreBoardServiceTest {
     public void shouldReturnTrueIfTeamScoresMoreThanRequiredRuns() {
         this.scoreBoard.setRequiredScore(10);
 
-        this.scoreBoardService.updateScore(player, Score.TWO);
-        this.scoreBoardService.updateScore(player, Score.SIX);
-        this.scoreBoardService.updateScore(player, Score.THREE);
+        this.scoreBoardService.update(player, Score.TWO);
+        this.scoreBoardService.update(player, Score.SIX);
+        this.scoreBoardService.update(player, Score.THREE);
 
         assertTrue(this.scoreBoardService.isMatchFinish());
     }
@@ -104,24 +104,24 @@ public class ScoreBoardServiceTest {
         this.scoreBoard.setRequiredScore(10);
         this.scoreBoard.setTotalWickets(3);
 
-        this.scoreBoardService.updateScore(player, Score.OUT);
-        this.scoreBoardService.updateScore(player, Score.OUT);
-        this.scoreBoardService.updateScore(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.OUT);
 
         assertTrue(this.scoreBoardService.isMatchFinish());
     }
 
     @Test
     public void shouldIncreaseNoOfBallsFacedByOneRun() {
-        this.scoreBoardService.updateScore(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.OUT);
 
         assertEquals(this.scoreBoard.getNoOfBallsFaced(), 1);
     }
 
     @Test
     public void shouldIncreaseNoOfBallsFacedByTwoRun() {
-        this.scoreBoardService.updateScore(player, Score.OUT);
-        this.scoreBoardService.updateScore(player, Score.ZERO);
+        this.scoreBoardService.update(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.ZERO);
 
         assertEquals(this.scoreBoard.getNoOfBallsFaced(), 2);
     }
@@ -130,12 +130,12 @@ public class ScoreBoardServiceTest {
     public void shouldReturnTrueIfAllOversFinished() {
         this.scoreBoard.setTotalOvers(1);
 
-        this.scoreBoardService.updateScore(player, Score.ZERO);
-        this.scoreBoardService.updateScore(player, Score.ZERO);
-        this.scoreBoardService.updateScore(player, Score.ZERO);
-        this.scoreBoardService.updateScore(player, Score.ZERO);
-        this.scoreBoardService.updateScore(player, Score.ZERO);
-        this.scoreBoardService.updateScore(player, Score.ZERO);
+        this.scoreBoardService.update(player, Score.ZERO);
+        this.scoreBoardService.update(player, Score.ZERO);
+        this.scoreBoardService.update(player, Score.ZERO);
+        this.scoreBoardService.update(player, Score.ZERO);
+        this.scoreBoardService.update(player, Score.ZERO);
+        this.scoreBoardService.update(player, Score.ZERO);
 
         assertTrue(this.scoreBoardService.isMatchFinish());
     }
@@ -157,21 +157,21 @@ public class ScoreBoardServiceTest {
 
     @Test
     public void shouldSetCurrentBallStatusAsONE() {
-        this.scoreBoardService.updateScore(player, Score.ONE);
+        this.scoreBoardService.update(player, Score.ONE);
 
         assertEquals(this.scoreBoard.getCurrentBallStatus(), Score.ONE);
     }
 
     @Test
     public void shouldSetCurrentBallStatusAsOUT() {
-        this.scoreBoardService.updateScore(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.OUT);
 
         assertEquals(this.scoreBoard.getCurrentBallStatus(), Score.OUT);
     }
 
     @Test
     public void shouldSetCurrentPlayerOnScoreBoard() {
-        this.scoreBoardService.updateScore(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.OUT);
 
         assertEquals(this.scoreBoard.getCurrentPlayer(), player);
     }
@@ -184,7 +184,7 @@ public class ScoreBoardServiceTest {
     @Test
     public void shouldUpdateBallsFacedByCurrentPlayerByOneRun() {
         player.setBallsFaced(2);
-        this.scoreBoardService.updateScore(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.OUT);
 
         assertEquals(this.player.ballsFaced(), 3);
     }
@@ -192,8 +192,8 @@ public class ScoreBoardServiceTest {
     @Test
     public void shouldUpdateBallsFacedByCurrentPlayerByTwoRuns() {
         player.setBallsFaced(2);
-        this.scoreBoardService.updateScore(player, Score.OUT);
-        this.scoreBoardService.updateScore(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.OUT);
+        this.scoreBoardService.update(player, Score.OUT);
 
         assertEquals(this.player.ballsFaced(), 4);
     }

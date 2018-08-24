@@ -13,7 +13,7 @@ public class ScoreBoardService {
         this.scoreBoard = scoreBoard;
     }
 
-    public void updateScore(Player player, Score score) {
+    public void update(Player player, Score score) {
         this.updateNumberOfBallsFacedByPlayer(player);
         this.updateCurrentScoreBoardStatus(player, score);
         if (score == Score.OUT) {

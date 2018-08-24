@@ -37,7 +37,7 @@ public class MatchServiceTest {
 
         matchService.start();
 
-        verify(scoreBoardService).updateScore(striker, zeroRuns);
+        verify(scoreBoardService).update(striker, zeroRuns);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class MatchServiceTest {
 
         matchService.start();
 
-        verify(scoreBoardService, times(4)).updateScore(any(), any());
+        verify(scoreBoardService, times(4)).update(any(), any());
         verify(scoreBoardService, times(4)).isMatchFinish();
     }
 

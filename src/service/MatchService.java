@@ -23,7 +23,7 @@ public class MatchService {
         do {
             Score score = this.playerService.score();
             Player striker = playerService.striker();
-            this.scoreBoardService.updateScore(striker, score);
+            this.scoreBoardService.update(striker, score);
             updateEachServiceAboutScoreBoard();
         } while (!this.scoreBoardService.isMatchFinish());
     }
