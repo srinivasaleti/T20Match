@@ -15,7 +15,8 @@ import static org.mockito.Mockito.*;
 
 class CommentaryServiceTest {
 
-    private static String BALL_FORMAT = "%d.%d %s scores %d run\n";
+    private static String SINGLE_RUN_FORMAT = "%d.%d %s scores %d run\n";
+    private static String MULTIPLE_RUNS_FORMAT = "%d.%d %s scores %d runs\n";
     private static String OUT_FORMAT = "%d.%d %s is out\n";
     private static String END_OF_OVER_FORMAT = "%d overs left. %d runs to win\n";
     private static String NON_OUT_BATSMEN_RUNS_FORMAT = "%s - %d* (%d balls)";
@@ -42,18 +43,18 @@ class CommentaryServiceTest {
 
         this.commentaryService.announce(scoreBoard);
 
-        verify(printStream).printf(BALL_FORMAT, 0, 5, "Srinu", 1);
+        verify(printStream).printf(SINGLE_RUN_FORMAT, 0, 5, "Srinu", 1);
     }
 
     @Test
-    void shouldAnnounceTwoRunInProperFormat() {
+    void shouldAnnounceTwoRusInProperFormat() {
         scoreBoard.setCurrentPlayer(player);
         scoreBoard.setNoOfBallsFaced(5);
         scoreBoard.setCurrentBallStatus(Score.TWO);
 
         this.commentaryService.announce(scoreBoard);
 
-        verify(printStream).printf(BALL_FORMAT, 0, 5, "Srinu", 2);
+        verify(printStream).printf(MULTIPLE_RUNS_FORMAT, 0, 5, "Srinu", 2);
     }
 
     @Test
@@ -75,7 +76,7 @@ class CommentaryServiceTest {
 
         this.commentaryService.announce(scoreBoard);
 
-        verify(printStream, never()).printf(BALL_FORMAT, 0, 5, "Srinu", 2);
+        verify(printStream, never()).printf(SINGLE_RUN_FORMAT, 0, 5, "Srinu", 2);
     }
 
 
@@ -106,7 +107,7 @@ class CommentaryServiceTest {
 
         this.commentaryService.announce(scoreBoard);
 
-        verify(printStream).printf(BALL_FORMAT, 0, 5, "Srinu", 2);
+        verify(printStream).printf(MULTIPLE_RUNS_FORMAT, 0, 5, "Srinu", 2);
         verify(printStream, never()).println();
         verify(printStream, never()).printf(END_OF_OVER_FORMAT, 1, 4);
     }

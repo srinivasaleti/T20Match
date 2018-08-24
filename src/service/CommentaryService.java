@@ -10,7 +10,8 @@ import static model.Score.OUT;
 
 public class CommentaryService {
 
-    private static String BALL_FORMAT = "%d.%d %s scores %d run\n";
+    private static String SINGLE_RUN_FORMAT = "%d.%d %s scores %d run\n";
+    private static String MULTIPLE_RUNS_FORMAT = "%d.%d %s scores %d runs\n";
     private static String OUT_FORMAT = "%d.%d %s is out\n";
     private static String END_OF_OVER_FORMAT = "%d overs left. %d runs to win\n";
     private static String NON_OUT_BATSMEN_RUNS_FORMAT = "%s - %d* (%d balls)";
@@ -31,7 +32,8 @@ public class CommentaryService {
         if (scoreBoard.getCurrentBallStatus() == OUT) {
             outputStream.printf(OUT_FORMAT, noOfOversDone, numberOfBallsFacedInCurrentOver, playerName);
         } else {
-            outputStream.printf(BALL_FORMAT, noOfOversDone, numberOfBallsFacedInCurrentOver, playerName, currentBallScore);
+            String format = currentBallScore == 1 ? SINGLE_RUN_FORMAT : MULTIPLE_RUNS_FORMAT;
+            outputStream.printf(format, noOfOversDone, numberOfBallsFacedInCurrentOver, playerName, currentBallScore);
         }
         if (noOfBallsFaced % 6 == 0) {
             outputStream.println();
