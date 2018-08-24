@@ -1,5 +1,6 @@
 package controller;
 
+import context.ContextHolder;
 import model.Player;
 import model.ScoreBoard;
 import model.Team;
@@ -16,6 +17,15 @@ public class GameController {
     private final MatchService matchService;
     private final CommentaryService commentaryService;
     private final Team team;
+
+    public GameController(int totalOvers, int requiredScore, Team team) {
+        this.totalOvers = totalOvers;
+        this.requiredScore = requiredScore;
+        this.team = team;
+        this.scoreBoard = ContextHolder.scoreBoard();
+        this.matchService = ContextHolder.matchService(team);
+        this.commentaryService = ContextHolder.commentaryService();
+    }
 
     public GameController(int totalOvers, int requiredScore, Team team, ScoreBoard scoreBoard, MatchService matchService, CommentaryService commentaryService) {
         this.scoreBoard = scoreBoard;
